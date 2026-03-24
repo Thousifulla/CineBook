@@ -62,7 +62,7 @@ app.use(helmet());
 
 // Allow multiple comma-separated origins in CLIENT_URL
 const allowedOrigins = process.env.CLIENT_URL 
-  ? process.env.CLIENT_URL.split(',') 
+  ? process.env.CLIENT_URL.split(',').map(url => url.trim()) 
   : ['http://localhost:5173'];
 
 app.use(cors({
