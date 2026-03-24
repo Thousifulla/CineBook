@@ -18,8 +18,8 @@ const movieSlice = createSlice({
         fetchMoviesStart: (state) => { state.loading = true; state.error = null; },
         fetchMoviesSuccess: (state, action) => {
             state.loading = false;
-            state.movies = action.payload.data;
-            state.pagination = action.payload.pagination;
+            state.movies = action.payload?.data || [];
+            state.pagination = action.payload?.pagination || { page: 1, limit: 12, total: 0, pages: 0 };
         },
         fetchMoviesFailure: (state, action) => {
             state.loading = false;
@@ -28,7 +28,7 @@ const movieSlice = createSlice({
         fetchTrendingStart: (state) => { state.trendingLoading = true; },
         fetchTrendingSuccess: (state, action) => {
             state.trendingLoading = false;
-            state.trendingMovies = action.payload;
+            state.trendingMovies = action.payload || [];
         },
         setCurrentMovie: (state, action) => { state.currentMovie = action.payload; },
         setFilters: (state, action) => { state.filters = { ...state.filters, ...action.payload }; },

@@ -50,7 +50,7 @@ export default function Home() {
     return (
         <div>
             {/* Hero Banner */}
-            {trendingMovies[0] && (
+            {trendingMovies && trendingMovies[0] && (
                 <div style={{
                     position: 'relative', height: 480, overflow: 'hidden',
                     backgroundImage: `url(${trendingMovies[0].poster})`,
@@ -116,7 +116,7 @@ export default function Home() {
                 </div>
 
                 {/* Trending row */}
-                {trendingMovies.length > 0 && !filters.search && !filters.genre && (
+                {trendingMovies && trendingMovies.length > 0 && !filters.search && !filters.genre && (
                     <div style={{ marginBottom: 40 }}>
                         <h2 className="section-title">🔥 Trending Movies</h2>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
@@ -131,7 +131,7 @@ export default function Home() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
                         {Array(12).fill(0).map((_, i) => <MovieCard key={i} loading />)}
                     </div>
-                ) : movies.length === 0 ? (
+                ) : !movies || movies.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--color-muted)' }}>
                         <div style={{ fontSize: 48, marginBottom: 12 }}>🎭</div>
                         <p style={{ fontSize: 16 }}>No movies found. Try a different search.</p>
