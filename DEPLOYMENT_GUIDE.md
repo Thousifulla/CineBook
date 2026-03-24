@@ -31,7 +31,7 @@ git push origin main
 4. Set the **Framework Preset** to `Vite`.
 5. Set the **Root Directory** to `frontend`.
 6. Set Environment Variables:
-   - `VITE_API_BASE_URL`: The deployed URL of your Render backend (e.g., `https://movie-booking-backend-xyz.onrender.com`).
+   - `VITE_API_URL`: The deployed URL of your Render backend (e.g., `https://movie-booking-backend-xyz.onrender.com/api`). Note: don't forget the `/api` at the end!
 7. Click **Deploy**. Vercel will process the `vercel.json` we created automatically to handle routing perfectly.
 
 ## Step 4: Finalize Connection
