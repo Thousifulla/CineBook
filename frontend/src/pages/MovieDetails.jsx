@@ -146,21 +146,31 @@ export default function MovieDetails() {
                 {/* Show timings */}
                 <div>
                     <h2 className="section-title">Book Tickets</h2>
-                    <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
-                        <input type="date" className="input-field" style={{ width: 'auto' }} value={selectedDate} min={new Date().toISOString().split('T')[0]}
-                            onChange={(e) => setSelectedDate(e.target.value)} />
-                        <input type="text" className="input-field" style={{ width: 'auto' }} placeholder="Filter by city..." value={selectedCity}
-                            onChange={(e) => setSelectedCity(e.target.value)} />
-                    </div>
+                    {movie.isBookingOpen ? (
+                        <>
+                            <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
+                                <input type="date" className="input-field" style={{ width: 'auto' }} value={selectedDate} min={new Date().toISOString().split('T')[0]}
+                                    onChange={(e) => setSelectedDate(e.target.value)} />
+                                <input type="text" className="input-field" style={{ width: 'auto' }} placeholder="Filter by city..." value={selectedCity}
+                                    onChange={(e) => setSelectedCity(e.target.value)} />
+                            </div>
 
-                    {shows.length === 0 ? (
-                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--color-muted)', background: 'var(--color-surface)', borderRadius: 12, border: '1px solid var(--color-border)' }}>
-                            <Calendar size={36} style={{ marginBottom: 12, opacity: 0.5 }} />
-                            <p>No shows available for this date. Try a different date.</p>
-                        </div>
+                            {shows.length === 0 ? (
+                                <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--color-muted)', background: 'var(--color-surface)', borderRadius: 12, border: '1px solid var(--color-border)' }}>
+                                    <Calendar size={36} style={{ marginBottom: 12, opacity: 0.5 }} />
+                                    <p>No shows available for this date. Try a different date.</p>
+                                </div>
+                            ) : (
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
+                                    {shows.map((show) => <ShowCard key={show._id} show={show} onSelect={handleSelectShow} />)}
+                                </div>
+                            )}
+                        </>
                     ) : (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
-                            {shows.map((show) => <ShowCard key={show._id} show={show} onSelect={handleSelectShow} />)}
+                        <div style={{ padding: '40px 0', textAlign: 'center', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 12 }}>
+                            <Calendar size={36} color="var(--color-muted)" style={{ marginBottom: 12, opacity: 0.6 }} />
+                            <h3 style={{ margin: '0 0 8px', color: 'var(--color-text)', fontSize: 18 }}>Bookings Not Yet Open</h3>
+                            <p style={{ margin: 0, color: 'var(--color-muted)', fontSize: 14 }}>Seat booking for this movie is currently closed. Please check back later.</p>
                         </div>
                     )}
                 </div>

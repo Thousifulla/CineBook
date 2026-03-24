@@ -132,4 +132,46 @@ const rejectSuggestion = async (req, res, next) => {
     }
 };
 
-module.exports = { generateSuggestions, getSuggestions, approveSuggestion, rejectSuggestion };
+// @desc    Re-approve a previously approved or rejected suggestion (Restore movie)
+// @route   PUT /api/ai/suggestions/:id/reapprove
+const reapproveSuggestion = async (req, res, next) => {
+    try {
+        const suggestion = await AISuggestion.findById(req.params.id);
+        if (!suggestion) return res.status(404).json({ success: false, message: 'Suggestion not found' });
+
+        const { movieData } = suggestion;
+
+        // Restore movie or create if completely deleted from DB manually
+        let movie = await Movie.findOne({ tmdbId: movieData.tmdbId });
+        if (movie) {
+            movie.isActive = true;
+            await movie.save();
+        } else {
+            movie = await Movie.create({
+                title: movieData.title,
+                description: movieData.overview,
+                genre: movieData.genre,
+                language: [movieData.language === 'en' ? 'English' : movieData.language],
+                duration: movieData.runtime || 120,
+                poster: movieData.poster,
+                trailer: movieData.trailer,
+                rating: movieData.rating,
+                releaseDate: movieData.releaseDate || new Date(),
+                cast: movieData.cast,
+                tmdbId: movieData.tmdbId,
+                popularity: movieData.popularity,
+                isUpcoming: movieData.releaseDate ? new Date(movieData.releaseDate) > new Date() : false,
+            });
+        }
+
+        suggestion.status = 'approved';
+        await suggestion.save();
+
+        logger.info(`AI suggestion restored to movies: ${movie.title}`);
+        res.status(200).json({ success: true, message: `"${movieData.title}" restored successfully!`, data: movie });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { generateSuggestions, getSuggestions, approveSuggestion, rejectSuggestion, reapproveSuggestion };

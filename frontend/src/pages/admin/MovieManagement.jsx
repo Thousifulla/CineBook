@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 
 const EMPTY_FORM = {
     title: '', description: '', genre: '', language: '', duration: '', rating: '',
-    releaseDate: '', poster: '', trailer: '',
+    releaseDate: '', poster: '', trailer: '', isBookingOpen: false,
 };
 
 export default function MovieManagement() {
@@ -30,7 +30,7 @@ export default function MovieManagement() {
             title: m.title, description: m.description,
             genre: m.genre?.join(', '), language: m.language?.join(', '),
             duration: m.duration, rating: m.rating, releaseDate: m.releaseDate?.split('T')[0],
-            poster: m.poster, trailer: m.trailer,
+            poster: m.poster, trailer: m.trailer, isBookingOpen: m.isBookingOpen || false,
         });
         setEditing(m._id);
         setShowForm(true);
@@ -46,6 +46,7 @@ export default function MovieManagement() {
             duration: parseInt(form.duration),
             rating: parseFloat(form.rating) || 0,
             releaseDate: form.releaseDate,
+            isBookingOpen: form.isBookingOpen,
         };
         try {
             if (editing) { await movieService.update(editing, payload); toast.success('Movie updated!'); }
@@ -106,6 +107,12 @@ export default function MovieManagement() {
                                 <label style={{ color: 'var(--color-muted)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 5 }}>Description</label>
                                 <textarea className="input-field" rows={3} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} style={{ resize: 'vertical' }} required />
                             </div>
+                            <div>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+                                    <input type="checkbox" checked={form.isBookingOpen} onChange={(e) => setForm(f => ({ ...f, isBookingOpen: e.target.checked }))} style={{ width: 16, height: 16, accentColor: '#e50914' }} />
+                                    <span style={{ color: 'var(--color-text)', fontSize: 13, fontWeight: 600 }}>Allow Seat Booking (Open to public)</span>
+                                </label>
+                            </div>
                             <div style={{ display: 'flex', gap: 12, marginTop: 4 }}>
                                 <button type="submit" className="btn-primary" disabled={saving} style={{ flex: 1, padding: '11px' }}>{saving ? 'Saving...' : editing ? 'Update Movie' : 'Add Movie'}</button>
                                 <button type="button" className="btn-secondary" onClick={() => setShowForm(false)} style={{ flex: 1, padding: '11px' }}>Cancel</button>
@@ -123,7 +130,7 @@ export default function MovieManagement() {
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
                         <thead>
                             <tr style={{ borderBottom: '1px solid var(--color-border)', background: 'rgba(255,255,255,0.02)' }}>
-                                {['Poster', 'Title', 'Genre', 'Language', 'Rating', 'Release', 'Actions'].map((h) => (
+                                {['Poster', 'Title', 'Genre', 'Language', 'Rating', 'Release', 'Booking', 'Actions'].map((h) => (
                                     <th key={h} style={{ padding: '12px 14px', textAlign: 'left', color: 'var(--color-muted)', fontWeight: 600, fontSize: 12 }}>{h}</th>
                                 ))}
                             </tr>
@@ -139,6 +146,9 @@ export default function MovieManagement() {
                                     <td style={{ padding: '10px 14px', color: 'var(--color-muted)' }}>{m.language?.join(', ')}</td>
                                     <td style={{ padding: '10px 14px', color: '#f5c518', fontWeight: 700 }}>{m.rating?.toFixed(1)}</td>
                                     <td style={{ padding: '10px 14px', color: 'var(--color-muted)' }}>{m.releaseDate ? new Date(m.releaseDate).toLocaleDateString('en-IN') : '-'}</td>
+                                    <td style={{ padding: '10px 14px' }}>
+                                        <span style={{ fontSize: 11, background: m.isBookingOpen ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)', color: m.isBookingOpen ? '#22c55e' : '#ef4444', padding: '3px 8px', borderRadius: 4, fontWeight: 600 }}>{m.isBookingOpen ? 'Open' : 'Closed'}</span>
+                                    </td>
                                     <td style={{ padding: '10px 14px' }}>
                                         <div style={{ display: 'flex', gap: 8 }}>
                                             <button onClick={() => openEdit(m)} style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 6, padding: '5px 10px', color: '#3b82f6', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 12 }}>

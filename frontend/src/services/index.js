@@ -53,4 +53,7 @@ export const aiService = {
     getSuggestions: (params) => api.get('/ai/suggestions', { params }),
     approve: (id) => api.put(`/ai/suggestions/${id}/approve`),
     reject: (id, data) => api.put(`/ai/suggestions/${id}/reject`, data),
+    reapprove: (id) => api.put(`/ai/suggestions/${id}/reapprove`),
+    getScheduleStatus: () => api.get('/ai/schedule-status'),
+    executeSchedule: (data) => api.post('/ai/schedule', data),
 };

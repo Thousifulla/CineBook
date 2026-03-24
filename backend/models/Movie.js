@@ -69,6 +69,10 @@ const movieSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        isBookingOpen: {
+            type: Boolean,
+            default: false,
+        },
     },
     {
         timestamps: true,

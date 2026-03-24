@@ -45,7 +45,8 @@ export default function AdminDashboard() {
                     <Link to="/admin/movies" className="btn-primary" style={{ textDecoration: 'none', padding: '8px 18px', fontSize: 13 }}>Manage Movies</Link>
                     <Link to="/admin/shows" className="btn-secondary" style={{ textDecoration: 'none', padding: '8px 18px', fontSize: 13 }}>Shows</Link>
                     <Link to="/admin/analytics" className="btn-secondary" style={{ textDecoration: 'none', padding: '8px 18px', fontSize: 13 }}>📊 Analytics</Link>
-                    <Link to="/admin/ai" className="btn-secondary" style={{ textDecoration: 'none', padding: '8px 18px', fontSize: 13 }}>🤖 AI</Link>
+                    <Link to="/admin/ai" className="btn-secondary" style={{ textDecoration: 'none', padding: '8px 18px', fontSize: 13 }}>🤖 AI Movies</Link>
+                    <Link to="/admin/ai-scheduler" className="btn-secondary" style={{ textDecoration: 'none', padding: '8px 18px', fontSize: 13 }}>🗓 AI Scheduler</Link>
                 </div>
 
             </div>

@@ -41,6 +41,7 @@ const movieSchema = Joi.object({
         character: Joi.string().optional(),
         photo: Joi.string().uri().optional(),
     })).optional(),
+    isBookingOpen: Joi.boolean().optional(),
     tmdbId: Joi.number().optional(),
 });
 

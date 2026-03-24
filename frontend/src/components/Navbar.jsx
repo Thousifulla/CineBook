@@ -25,7 +25,7 @@ export default function Navbar() {
     const navLinkStyle = (path) => ({
         color: location.pathname === path ? 'var(--color-text)' : 'var(--color-muted)',
         textDecoration: 'none',
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: 500,
         paddingBottom: 4,
         borderBottom: location.pathname === path ? '2px solid #e50914' : '2px solid transparent',
@@ -69,16 +69,16 @@ export default function Navbar() {
 
     return (
         <nav style={{ background: 'rgba(10,10,15,0.95)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--color-border)', position: 'sticky', top: 0, zIndex: 100 }}>
-            <div className="page-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
+            <div className="page-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 80 }}>
                 
                 {/* Left Section: Logo & Links */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
                     {/* Logo */}
                     <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-                        <div style={{ background: 'linear-gradient(135deg, #e50914, #ff6b35)', borderRadius: 8, padding: 6, display: 'flex' }}>
-                            <Film size={22} color="white" />
+                        <div style={{ background: 'linear-gradient(135deg, #e50914, #ff6b35)', borderRadius: 8, padding: 8, display: 'flex' }}>
+                            <Film size={26} color="white" />
                         </div>
-                        <span style={{ fontWeight: 800, fontSize: 20, background: 'linear-gradient(135deg, #e50914, #ff6b35)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        <span style={{ fontWeight: 800, fontSize: 24, background: 'linear-gradient(135deg, #e50914, #ff6b35)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                             CineBook
                         </span>
                     </Link>
@@ -227,8 +227,8 @@ export default function Navbar() {
                             </>
                         ) : (
                             <>
-                                <Link to="/login" className="btn-secondary" style={{ padding: '7px 16px', fontSize: 14, textDecoration: 'none' }}>Login</Link>
-                                <Link to="/register" className="btn-primary" style={{ padding: '7px 16px', fontSize: 14, textDecoration: 'none' }}>Sign Up</Link>
+                                <Link to="/login" className="btn-secondary" style={{ padding: '8px 18px', fontSize: 15, textDecoration: 'none' }}>Login</Link>
+                                <Link to="/register" className="btn-primary" style={{ padding: '8px 18px', fontSize: 15, textDecoration: 'none' }}>Sign Up</Link>
                             </>
                         )}
                     </div>

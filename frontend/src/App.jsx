@@ -23,6 +23,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import MovieManagement from './pages/admin/MovieManagement';
 import ShowManagement from './pages/admin/ShowManagement';
 import AISuggestions from './pages/admin/AISuggestions';
+import AIScheduler from './pages/admin/AIScheduler';
 import BookingAnalytics from './pages/admin/BookingAnalytics';
 
 import './index.css';
@@ -32,10 +33,11 @@ function App() {
     <Provider store={store}>
       <BrowserRouter>
         <ErrorBoundary>
-          <div style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-bg)' }}>
             <Navbar />
-            <Routes>
-              {/* Public routes */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 80px)' }}>
+              <Routes>
+                {/* Public routes */}
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
@@ -53,6 +55,7 @@ function App() {
               <Route path="/admin/movies" element={<AdminRoute><MovieManagement /></AdminRoute>} />
               <Route path="/admin/shows" element={<AdminRoute><ShowManagement /></AdminRoute>} />
               <Route path="/admin/ai" element={<AdminRoute><AISuggestions /></AdminRoute>} />
+              <Route path="/admin/ai-scheduler" element={<AdminRoute><AIScheduler /></AdminRoute>} />
               <Route path="/admin/analytics" element={<AdminRoute><BookingAnalytics /></AdminRoute>} />
 
               {/* 404 */}
@@ -65,6 +68,7 @@ function App() {
                 </div>
               } />
             </Routes>
+            </div>
             <Footer />
           </div>
 

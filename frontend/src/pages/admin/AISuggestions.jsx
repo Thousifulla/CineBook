@@ -65,6 +65,15 @@ export default function AISuggestions() {
         finally { setActing((a) => ({ ...a, [id]: null })); }
     };
 
+    const handleReapprove = async (id, title) => {
+        setActing((a) => ({ ...a, [id]: 'reapproving' }));
+        try {
+            await aiService.reapprove(id);
+            toast.success(`✅ "${title}" restored successfully!`);
+        } catch (err) { toast.error(err.message || 'Failed to restore'); }
+        finally { setActing((a) => ({ ...a, [id]: null })); }
+    };
+
     return (
         <div className="page-container" style={{ paddingTop: 32, paddingBottom: 48 }}>
             {/* Header */}
@@ -176,9 +185,20 @@ export default function AISuggestions() {
                                             </button>
                                         </div>
                                     )}
-                                    {statusFilter !== 'pending' && (
-                                        <div style={{ textAlign: 'center', padding: '6px 0', borderRadius: 8, background: statusFilter === 'approved' ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.05)', border: `1px solid ${statusFilter === 'approved' ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.2)'}` }}>
-                                            <span style={{ color: statusFilter === 'approved' ? '#22c55e' : '#6b7280', fontWeight: 700, fontSize: 13, textTransform: 'capitalize' }}>{statusFilter}</span>
+                                    {statusFilter === 'approved' && (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                            <div style={{ textAlign: 'center', padding: '6px 0', borderRadius: 8, background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)' }}>
+                                                <span style={{ color: '#22c55e', fontWeight: 700, fontSize: 13, textTransform: 'capitalize' }}>Approved</span>
+                                            </div>
+                                            <button onClick={() => handleReapprove(s._id, m.title)} disabled={!!isActing}
+                                                style={{ width: '100%', padding: '8px', borderRadius: 8, background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.3)', color: '#3b82f6', cursor: 'pointer', fontWeight: 700, fontSize: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+                                                <RefreshCw size={14} style={{ animation: isActing === 'reapproving' ? 'spin 1s linear infinite' : 'none' }} /> {isActing === 'reapproving' ? 'Restoring...' : 'Restore Movie'}
+                                            </button>
+                                        </div>
+                                    )}
+                                    {statusFilter === 'rejected' && (
+                                        <div style={{ textAlign: 'center', padding: '6px 0', borderRadius: 8, background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.2)' }}>
+                                            <span style={{ color: '#6b7280', fontWeight: 700, fontSize: 13, textTransform: 'capitalize' }}>Rejected</span>
                                         </div>
                                     )}
                                 </div>

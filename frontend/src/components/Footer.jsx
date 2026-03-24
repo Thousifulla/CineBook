@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Film, Github, Twitter, Instagram } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const LINKS = [
     { label: 'Home', to: '/' },
@@ -13,12 +14,18 @@ export default function Footer() {
     if (location.pathname.startsWith('/admin')) return null;
 
     return (
-        <footer style={{
-            borderTop: '1px solid var(--color-border)',
-            background: 'var(--color-surface)',
-            marginTop: 'auto',
-            padding: '40px 0 24px',
-        }}>
+        <motion.footer
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            style={{
+                borderTop: '1px solid var(--color-border)',
+                background: 'var(--color-surface)',
+                marginTop: 'auto',
+                padding: '40px 0 24px',
+            }}
+        >
             <div className="page-container">
                 <div style={{
                     display: 'grid',
@@ -119,6 +126,6 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-        </footer>
+        </motion.footer>
     );
 }

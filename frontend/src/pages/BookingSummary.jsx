@@ -36,7 +36,7 @@ export default function BookingSummary() {
             const orderData = orderRes.data.data;
 
             // Launch Razorpay checkout
-            const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || orderData.keyId;
+            const razorpayKey = orderData.keyId;
             const options = {
                 key: razorpayKey,
                 amount: orderData.amount,
