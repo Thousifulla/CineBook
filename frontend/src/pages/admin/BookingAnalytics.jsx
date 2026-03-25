@@ -141,7 +141,7 @@ export default function BookingAnalytics() {
             {/* Bookings Table */}
             <div className="glass" style={{ borderRadius: 16, overflow: 'hidden', marginBottom: 20 }}>
                 <div style={{ overflowX: 'auto' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 800 }}>
                         <thead>
                             <tr style={{ borderBottom: '1px solid var(--color-border)', background: 'rgba(255,255,255,0.02)' }}>
                                 {['Reference', 'User', 'Movie', 'Date', 'Seats', 'Amount', 'Status'].map((h) => (

@@ -108,7 +108,7 @@ export default function AISuggestions() {
             </div>
 
             {loading ? (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {[1, 2, 3, 4].map((i) => <div key={i} className="skeleton" style={{ height: 380, borderRadius: 14 }} />)}
                 </div>
             ) : suggestions.length === 0 ? (
@@ -118,7 +118,7 @@ export default function AISuggestions() {
                     {statusFilter === 'pending' && <button className="btn-primary" onClick={handleGenerate} style={{ marginTop: 8 }}>Generate Now</button>}
                 </div>
             ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {suggestions.map((s) => {
                         const m = s.movieData;
                         const isActing = acting[s._id];

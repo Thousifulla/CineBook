@@ -288,7 +288,7 @@ export default function UserDashboard() {
                             const movie = show?.movieId;
                             const isConfirmed = booking.paymentStatus === 'completed';
                             return (
-                                <Link key={booking._id} to={`/booking-confirmed/${booking._id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12, background: 'var(--color-surface)', borderRadius: 10, padding: '12px 14px', border: '1px solid var(--color-border)', transition: 'border-color 0.2s' }}
+                                <Link key={booking._id} to={`/booking-confirmed/${booking._id}`} className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4" style={{ textDecoration: 'none', background: 'var(--color-surface)', borderRadius: 10, padding: '12px 14px', border: '1px solid var(--color-border)', transition: 'border-color 0.2s' }}
                                     onMouseOver={e => e.currentTarget.style.borderColor = 'var(--color-muted)'}
                                     onMouseOut={e => e.currentTarget.style.borderColor = 'var(--color-border)'}>
                                     {movie?.poster && (
@@ -300,7 +300,7 @@ export default function UserDashboard() {
                                             {formatDate(show?.showTime)} · {formatTime(show?.showTime)} · {booking.seats?.join(', ')}
                                         </p>
                                     </div>
-                                    <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                                    <div className="text-left sm:text-right mt-2 sm:mt-0 shrink-0">
                                         <p style={{ color: isConfirmed ? '#22c55e' : '#f59e0b', fontWeight: 700, fontSize: 14, margin: '0 0 2px' }}>
                                             {formatCurrency(booking.totalPrice)}
                                         </p>

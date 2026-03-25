@@ -59,7 +59,7 @@ export default function AIScheduler() {
             </div>
 
             {loading ? (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {[1, 2, 3].map((i) => <div key={i} className="skeleton" style={{ height: 200, borderRadius: 14 }} />)}
                 </div>
             ) : statusData.length === 0 ? (
@@ -69,7 +69,7 @@ export default function AIScheduler() {
                     <p>No active movies found that require scheduling. Make sure movies are approved and allow seat bookings.</p>
                 </div>
             ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {statusData.map((item) => {
                         const { movie, status, message } = item;
                         const isProcessing = processingId === movie._id;
