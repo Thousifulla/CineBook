@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { bookingService } from '../services/index';
 import { Link } from 'react-router-dom';
 import { Calendar, MapPin, Clock, Ticket, ChevronRight } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const STATUS_COLORS = {
     completed: { bg: 'rgba(34,197,94,0.1)', border: 'rgba(34,197,94,0.3)', text: '#22c55e' },
@@ -23,6 +24,22 @@ export default function BookingHistory() {
             .catch(() => { })
             .finally(() => setLoading(false));
     }, [page]);
+
+    const handleCancelBooking = async (e, id) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!window.confirm('Are you sure you want to cancel this booking?')) return;
+        
+        try {
+            await bookingService.cancelBooking(id);
+            toast.success('Booking cancelled successfully');
+            const r = await bookingService.getMyBookings({ page, limit: 10 });
+            setBookings(r.data.data);
+            setPagination(r.data.pagination);
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to cancel booking');
+        }
+    };
 
     return (
         <div className="page-container" style={{ paddingTop: 32, paddingBottom: 48 }}>
@@ -65,10 +82,19 @@ export default function BookingHistory() {
                                             <span><Ticket size={12} style={{ marginRight: 4 }} />{booking.seats?.join(', ')}</span>
                                         </div>
                                     </div>
-                                    <div className="text-left sm:text-right mt-2 sm:mt-0 shrink-0">
-                                        <p style={{ color: 'var(--color-success)', fontWeight: 800, fontSize: 18, margin: '0 0 4px' }}>₹{booking.totalPrice}</p>
+                                    <div className="text-left sm:text-right mt-2 sm:mt-0 shrink-0" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                                        <p style={{ color: booking.paymentStatus === 'cancelled' ? '#6b7280' : 'var(--color-success)', fontWeight: 800, fontSize: 18, margin: '0 0 4px' }}>₹{booking.totalPrice}</p>
                                         <p style={{ color: 'var(--color-muted)', fontSize: 11, margin: 0 }}>Ref: {booking.bookingReference}</p>
-                                        <ChevronRight size={18} color="var(--color-muted)" style={{ marginTop: 4 }} />
+                                        {booking.paymentStatus !== 'cancelled' ? (
+                                            <button 
+                                                onClick={(e) => handleCancelBooking(e, booking._id)}
+                                                style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', marginTop: 8 }}
+                                            >
+                                                Cancel
+                                            </button>
+                                        ) : (
+                                            <ChevronRight size={18} color="var(--color-muted)" style={{ marginTop: 4 }} />
+                                        )}
                                     </div>
                                 </div>
                             </Link>

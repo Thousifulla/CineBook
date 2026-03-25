@@ -375,11 +375,72 @@ const getBooking = async (req, res, next) => {
 };
 
 
+// @desc    Cancel an existing booking (either pending or completed)
+// @route   PUT /api/bookings/:id/cancel
+const cancelBooking = async (req, res, next) => {
+    try {
+        const booking = await Booking.findById(req.params.id);
+
+        if (!booking) {
+            return res.status(404).json({ success: false, message: 'Booking not found' });
+        }
+
+        // Verify ownership or admin
+        if (booking.userId.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+            return res.status(403).json({ success: false, message: 'Unauthorized to cancel this booking' });
+        }
+
+        if (booking.status === 'cancelled') {
+            return res.status(400).json({ success: false, message: 'Booking is already cancelled' });
+        }
+
+        if (booking.paymentStatus === 'completed') {
+            const show = await Show.findById(booking.showId);
+            if (show) {
+                // Unmark seats in Show DB
+                booking.seats.forEach((seatId) => {
+                    const seat = show.seatLayout.find((s) => s.seatId === seatId);
+                    if (seat) seat.isBooked = false;
+                });
+                
+                show.availableSeats = Math.min(show.totalSeats || Infinity, show.availableSeats + booking.seats.length);
+                await show.save({ validateBeforeSave: false });
+
+                // Decrement SeatAnalytics
+                for (const seatId of booking.seats) {
+                    await SeatAnalytics.updateOne(
+                        { showId: booking.showId, seatId },
+                        { $inc: { bookingCount: -1 } }
+                    );
+                }
+            }
+        } else if (booking.paymentStatus === 'pending') {
+            // It might still have locks in Redis
+            await releaseSeats(booking.showId.toString(), booking.seats, booking.userId);
+        }
+
+        booking.paymentStatus = 'cancelled';
+        booking.status = 'cancelled';
+        await booking.save({ validateBeforeSave: false });
+
+        logger.info(`Booking cancelled: ${booking.bookingReference || booking._id} by user ${req.user._id}`);
+
+        res.status(200).json({
+            success: true,
+            message: 'Booking cancelled successfully'
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     lockAndInitiate,
     createBooking,
     confirmBooking,
     releaseBooking,
+    cancelBooking,
     getMyBookings,
     getBooking
 };

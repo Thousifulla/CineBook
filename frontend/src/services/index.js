@@ -34,6 +34,7 @@ export const bookingService = {
     getById: (id) => api.get(`/bookings/${id}`),
     confirm: (id, data) => api.put(`/bookings/${id}/confirm`, data),
     release: (id) => api.put(`/bookings/${id}/release`),
+    cancelBooking: (id) => api.put(`/bookings/${id}/cancel`),
 };
 
 export const paymentService = {

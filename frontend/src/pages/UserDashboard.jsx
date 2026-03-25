@@ -44,6 +44,21 @@ export default function UserDashboard() {
             .finally(() => setLoading(false));
     }, []);
 
+    const handleCancelBooking = async (e, id) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!window.confirm('Are you sure you want to cancel this booking?')) return;
+        
+        try {
+            await bookingService.cancelBooking(id);
+            toast.success('Booking cancelled successfully');
+            const r = await bookingService.getMyBookings({ page: 1, limit: 5 });
+            setBookings(r.data.data || []);
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to cancel booking');
+        }
+    };
+
     const completed = bookings.filter(b => b.paymentStatus === 'completed');
     const totalSpent = completed.reduce((sum, b) => sum + (b.totalPrice || 0), 0);
 
@@ -300,13 +315,25 @@ export default function UserDashboard() {
                                             {formatDate(show?.showTime)} · {formatTime(show?.showTime)} · {booking.seats?.join(', ')}
                                         </p>
                                     </div>
-                                    <div className="text-left sm:text-right mt-2 sm:mt-0 shrink-0">
-                                        <p style={{ color: isConfirmed ? '#22c55e' : '#f59e0b', fontWeight: 700, fontSize: 14, margin: '0 0 2px' }}>
+                                    <div className="text-left sm:text-right mt-2 sm:mt-0 shrink-0" style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
+                                        <p style={{ color: isConfirmed ? '#22c55e' : booking.paymentStatus === 'cancelled' ? '#6b7280' : '#f59e0b', fontWeight: 700, fontSize: 14, margin: '0' }}>
                                             {formatCurrency(booking.totalPrice)}
                                         </p>
-                                        <span style={{ background: isConfirmed ? 'rgba(34,197,94,0.1)' : 'rgba(245,158,11,0.1)', color: isConfirmed ? '#22c55e' : '#f59e0b', borderRadius: 10, padding: '1px 8px', fontSize: 11, fontWeight: 700 }}>
+                                        <span style={{ 
+                                            background: isConfirmed ? 'rgba(34,197,94,0.1)' : booking.paymentStatus === 'cancelled' ? 'rgba(107,114,128,0.1)' : 'rgba(245,158,11,0.1)', 
+                                            color: isConfirmed ? '#22c55e' : booking.paymentStatus === 'cancelled' ? '#6b7280' : '#f59e0b', 
+                                            borderRadius: 10, padding: '2px 8px', fontSize: 11, fontWeight: 700 
+                                        }}>
                                             {booking.paymentStatus}
                                         </span>
+                                        {booking.paymentStatus !== 'cancelled' && (
+                                            <button 
+                                                onClick={(e) => handleCancelBooking(e, booking._id)}
+                                                style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444', border: 'none', borderRadius: 6, padding: '4px 8px', fontSize: 11, fontWeight: 600, cursor: 'pointer', marginTop: 4 }}
+                                            >
+                                                Cancel
+                                            </button>
+                                        )}
                                     </div>
                                 </Link>
                             );
