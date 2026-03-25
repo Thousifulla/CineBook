@@ -31,7 +31,7 @@ export default function Register() {
 
     return (
         <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: 'radial-gradient(ellipse at center, rgba(229,9,20,0.06) 0%, var(--color-bg) 70%)' }}>
-            <div className="glass" style={{ borderRadius: 20, padding: '40px 36px', width: '100%', maxWidth: 440 }}>
+            <div className="glass p-6 md:p-9 w-full max-w-[440px]" style={{ borderRadius: 20 }}>
                 <div style={{ textAlign: 'center', marginBottom: 32 }}>
                     <div style={{ background: 'linear-gradient(135deg, #e50914, #ff6b35)', borderRadius: 12, padding: 12, display: 'inline-flex', marginBottom: 12 }}>
                         <Film size={28} color="white" />

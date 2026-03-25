@@ -49,7 +49,7 @@ export default function BookingHistory() {
                         const statusCfg = STATUS_COLORS[booking.paymentStatus] || STATUS_COLORS.pending;
                         return (
                             <Link key={booking._id} to={`/booking-confirmed/${booking._id}`} style={{ textDecoration: 'none' }}>
-                                <div className="glass card-hover" style={{ borderRadius: 14, padding: '16px 20px', display: 'flex', gap: 16, alignItems: 'center' }}>
+                                <div className="glass card-hover flex flex-col sm:flex-row gap-4 items-start sm:items-center" style={{ borderRadius: 14, padding: '16px 20px' }}>
                                     {movie?.poster && <img src={movie.poster} alt={movie.title} style={{ width: 56, height: 78, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }} />}
                                     <div style={{ flex: 1 }}>
                                         <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 6 }}>
@@ -65,7 +65,7 @@ export default function BookingHistory() {
                                             <span><Ticket size={12} style={{ marginRight: 4 }} />{booking.seats?.join(', ')}</span>
                                         </div>
                                     </div>
-                                    <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                                    <div className="text-left sm:text-right mt-2 sm:mt-0 shrink-0">
                                         <p style={{ color: 'var(--color-success)', fontWeight: 800, fontSize: 18, margin: '0 0 4px' }}>₹{booking.totalPrice}</p>
                                         <p style={{ color: 'var(--color-muted)', fontSize: 11, margin: 0 }}>Ref: {booking.bookingReference}</p>
                                         <ChevronRight size={18} color="var(--color-muted)" style={{ marginTop: 4 }} />

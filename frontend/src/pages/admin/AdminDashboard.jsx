@@ -41,7 +41,7 @@ export default function AdminDashboard() {
         <div className="page-container" style={{ paddingTop: 32, paddingBottom: 48 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 12 }}>
                 <h1 style={{ fontWeight: 800, fontSize: 26, margin: 0 }}>Admin Dashboard</h1>
-                <div style={{ display: 'flex', gap: 10 }}>
+                <div className="flex flex-wrap gap-2 mt-2 md:mt-0">
                     <Link to="/admin/movies" className="btn-primary" style={{ textDecoration: 'none', padding: '8px 18px', fontSize: 13 }}>Manage Movies</Link>
                     <Link to="/admin/shows" className="btn-secondary" style={{ textDecoration: 'none', padding: '8px 18px', fontSize: 13 }}>Shows</Link>
                     <Link to="/admin/analytics" className="btn-secondary" style={{ textDecoration: 'none', padding: '8px 18px', fontSize: 13 }}>📊 Analytics</Link>
@@ -98,7 +98,7 @@ export default function AdminDashboard() {
             <div className="glass" style={{ borderRadius: 16, padding: '20px 22px' }}>
                 <h3 style={{ fontWeight: 700, fontSize: 15, margin: '0 0 16px' }}>Recent Bookings</h3>
                 <div style={{ overflowX: 'auto' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 600 }}>
                         <thead>
                             <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
                                 {['Reference', 'User', 'Movie', 'Seats', 'Amount', 'Status'].map((h) => (

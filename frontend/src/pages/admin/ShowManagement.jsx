@@ -97,7 +97,7 @@ export default function ShowManagement() {
                                 <label style={{ color: 'var(--color-muted)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 5 }}>Show Date & Time *</label>
                                 <input className="input-field" type="datetime-local" value={form.showTime} onChange={(e) => setField('showTime', e.target.value)} required />
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
                                     <label style={{ color: 'var(--color-muted)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 5 }}>Language</label>
                                     <select className="input-field" value={form.language} onChange={(e) => setField('language', e.target.value)}>
@@ -111,7 +111,7 @@ export default function ShowManagement() {
                                     </select>
                                 </div>
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                 {['regular', 'premium', 'vip'].map((type) => (
                                     <div key={type}>
                                         <label style={{ color: 'var(--color-muted)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 5, textTransform: 'capitalize' }}>{type} Price (₹)</label>
@@ -132,8 +132,8 @@ export default function ShowManagement() {
             {loading ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>{[1, 2, 3].map((i) => <div key={i} className="skeleton" style={{ height: 72, borderRadius: 10 }} />)}</div>
             ) : (
-                <div className="glass" style={{ borderRadius: 16, overflow: 'hidden' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                <div className="glass overflow-x-auto w-full" style={{ borderRadius: 16 }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 800 }}>
                         <thead>
                             <tr style={{ borderBottom: '1px solid var(--color-border)', background: 'rgba(255,255,255,0.02)' }}>
                                 {['Movie', 'Theater', 'City', 'Date & Time', 'Format', 'VIP/Prem/Reg', 'Available', 'Action'].map((h) => (

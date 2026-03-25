@@ -23,7 +23,7 @@ export default function BookingTicket({ booking }) {
 
             {/* Movie info */}
             <div style={{ padding: '20px 24px', borderBottom: '1px dashed var(--color-border)' }}>
-                <div style={{ display: 'flex', gap: 16 }}>
+                <div className="flex flex-col sm:flex-row gap-4">
                     {movie?.poster && (
                         <img src={movie.poster} alt={movie.title} style={{ width: 70, height: 100, objectFit: 'cover', borderRadius: 8 }} />
                     )}
@@ -57,7 +57,7 @@ export default function BookingTicket({ booking }) {
             </div>
 
             {/* Price + QR */}
-            <div style={{ padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4" style={{ padding: '16px 24px' }}>
                 <div>
                     <p style={{ color: 'var(--color-muted)', fontSize: 12, textTransform: 'uppercase', letterSpacing: 1, margin: '0 0 4px' }}>Total Paid</p>
                     <p style={{ color: 'var(--color-success)', fontWeight: 800, fontSize: 24, margin: 0 }}>₹{booking.totalPrice?.toFixed(2)}</p>

@@ -88,7 +88,7 @@ export default function BookingSummary() {
             <h1 style={{ fontWeight: 800, fontSize: 26, marginBottom: 24 }}>Booking Summary</h1>
 
             {/* Movie info */}
-            <div className="glass" style={{ borderRadius: 14, padding: '20px 24px', marginBottom: 20, display: 'flex', gap: 16 }}>
+            <div className="glass flex flex-col sm:flex-row gap-4 mb-5" style={{ borderRadius: 14, padding: '20px 24px' }}>
                 {movie?.poster && <img src={movie.poster} alt={movie.title} style={{ width: 64, height: 90, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }} />}
                 <div>
                     <h2 style={{ fontWeight: 800, fontSize: 18, margin: '0 0 8px' }}>{movie?.title}</h2>

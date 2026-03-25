@@ -225,15 +225,10 @@ export default function SeatSelection() {
         <div className="page-container" style={{ paddingTop: 32, paddingBottom: 48 }}>
 
             {/* Show Info Header */}
-            <div className="glass" style={{
+            <div className="glass flex flex-col sm:flex-row gap-4 items-center justify-between" style={{
                 borderRadius: 14,
                 padding: '16px 24px',
-                marginBottom: 28,
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 16,
-                alignItems: 'center',
-                justifyContent: 'space-between'
+                marginBottom: 28
             }}>
 
                 <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
@@ -286,17 +281,13 @@ export default function SeatSelection() {
 
 
             {/* Booking Bar */}
-            <div className="glass" style={{
+            <div className="glass flex flex-col md:flex-row gap-4 items-center justify-between" style={{
                 borderRadius: 14,
                 padding: '16px 24px',
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 16,
-                alignItems: 'center',
-                justifyContent: 'space-between'
+                marginBottom: 20
             }}>
 
-                <div>
+                <div className="w-full md:w-auto text-center md:text-left">
 
                     {selectedSeats.length === 0 ? (
                         <p>Select seats to continue</p>
@@ -322,7 +313,7 @@ export default function SeatSelection() {
 
 
                 <button
-                    className="btn-primary"
+                    className="btn-primary w-full md:w-auto"
                     onClick={handleConfirmSeats}
                     disabled={selectedSeats.length === 0 || locking}
                 >

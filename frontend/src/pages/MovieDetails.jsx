@@ -79,24 +79,25 @@ export default function MovieDetails() {
             </div>
 
             <div className="page-container" style={{ marginTop: -260, position: 'relative', zIndex: 1, paddingBottom: 48 }}>
-                <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap', marginBottom: 40 }}>
+                <div className="flex flex-col md:flex-row gap-6 md:gap-8 mb-10 items-center md:items-start text-center md:text-left">
                     {/* Poster */}
-                    <div style={{ flexShrink: 0 }}>
+                    <div className="shrink-0">
                         <img src={movie.poster} alt={movie.title}
-                            style={{ width: 180, borderRadius: 14, boxShadow: '0 20px 60px rgba(0,0,0,0.6)', border: '2px solid var(--color-border)', display: 'block' }}
+                            className="w-[160px] md:w-[180px] rounded-2xl border-2 block shadow-2xl"
+                            style={{ borderColor: 'var(--color-border)' }}
                             onError={(e) => { e.target.style.display = 'none'; }} />
                     </div>
 
                     {/* Info */}
-                    <div style={{ flex: 1, minWidth: 280 }}>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
+                    <div className="flex-1 w-full max-w-[600px] md:max-w-none">
+                        <div className="flex flex-wrap gap-2 mb-3 justify-center md:justify-start">
                             {movie.genre?.map((g) => (
                                 <span key={g} style={{ background: 'rgba(229,9,20,0.15)', border: '1px solid rgba(229,9,20,0.3)', borderRadius: 20, padding: '3px 12px', color: '#ff6b35', fontSize: 12, fontWeight: 600 }}>{g}</span>
                             ))}
                         </div>
                         <h1 style={{ fontSize: 'clamp(24px, 3.5vw, 40px)', fontWeight: 900, color: 'white', margin: '0 0 12px', lineHeight: 1.1 }}>{movie.title}</h1>
 
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, color: 'var(--color-muted)', fontSize: 14, marginBottom: 16 }}>
+                        <div className="flex flex-wrap gap-4 text-sm mb-4 justify-center md:justify-start" style={{ color: 'var(--color-muted)' }}>
                             <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                                 <Star size={15} fill="#f5c518" color="#f5c518" /><span style={{ color: '#f5c518', fontWeight: 700 }}>{movie.rating?.toFixed(1)}</span>
                             </span>
@@ -148,10 +149,10 @@ export default function MovieDetails() {
                     <h2 className="section-title">Book Tickets</h2>
                     {movie.isBookingOpen ? (
                         <>
-                            <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
-                                <input type="date" className="input-field" style={{ width: 'auto' }} value={selectedDate} min={new Date().toISOString().split('T')[0]}
+                            <div className="flex flex-col md:flex-row gap-3 mb-5">
+                                <input type="date" className="input-field w-full md:w-auto" value={selectedDate} min={new Date().toISOString().split('T')[0]}
                                     onChange={(e) => setSelectedDate(e.target.value)} />
-                                <input type="text" className="input-field" style={{ width: 'auto' }} placeholder="Filter by city..." value={selectedCity}
+                                <input type="text" className="input-field w-full md:w-auto" placeholder="Filter by city..." value={selectedCity}
                                     onChange={(e) => setSelectedCity(e.target.value)} />
                             </div>
 
@@ -161,7 +162,7 @@ export default function MovieDetails() {
                                     <p>No shows available for this date. Try a different date.</p>
                                 </div>
                             ) : (
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                                     {shows.map((show) => <ShowCard key={show._id} show={show} onSelect={handleSelectShow} />)}
                                 </div>
                             )}

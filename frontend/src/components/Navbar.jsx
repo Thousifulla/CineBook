@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
-import { Film, LogOut, Search, X } from 'lucide-react';
+import { Film, LogOut, Search, X, Menu } from 'lucide-react';
 import { movieService } from '../services';
 
 export default function Navbar() {
@@ -15,6 +15,7 @@ export default function Navbar() {
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [showMobileMenu, setShowMobileMenu] = useState(false);
     const searchRef = useRef(null);
 
     const handleLogout = () => {
@@ -84,7 +85,7 @@ export default function Navbar() {
                     </Link>
 
                     {/* Desktop links */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 24, paddingLeft: 12 }}>
+                    <div className="hidden md:flex items-center gap-6 pl-3">
                         <Link to="/" style={navLinkStyle('/')}>Movies</Link>
                         {isAuthenticated && (
                             <>
@@ -109,7 +110,7 @@ export default function Navbar() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
                     
                     {/* Search Bar */}
-                    <div ref={searchRef} style={{ position: 'relative' }}>
+                    <div ref={searchRef} className="hidden md:block" style={{ position: 'relative' }}>
                         <div style={{ 
                             display: 'flex', 
                             alignItems: 'center', 
@@ -213,7 +214,7 @@ export default function Navbar() {
                     </div>
 
                     {/* Auth buttons */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div className="hidden md:flex items-center gap-3">
                         {isAuthenticated ? (
                             <>
                                 <Link to="/dashboard" title={user?.name} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
@@ -232,8 +233,92 @@ export default function Navbar() {
                             </>
                         )}
                     </div>
+
+                    {/* Mobile Menu Toggle */}
+                    <button 
+                        className="flex md:hidden items-center justify-center p-2 text-white cursor-pointer"
+                        style={{ background: 'transparent', border: 'none' }}
+                        onClick={() => setShowMobileMenu(true)}
+                    >
+                        <Menu size={26} />
+                    </button>
                 </div>
             </div>
+
+            {/* Mobile Menu Overlay */}
+            {showMobileMenu && (
+                <div style={{
+                    position: 'fixed', inset: 0, background: 'rgba(10,10,15,0.98)', zIndex: 1000,
+                    display: 'flex', flexDirection: 'column', padding: '24px'
+                }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+                        <div style={{ fontWeight: 800, fontSize: 24, background: 'linear-gradient(135deg, #e50914, #ff6b35)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                            CineBook
+                        </div>
+                        <button onClick={() => setShowMobileMenu(false)} style={{ color: 'white', background: 'transparent', border: 'none', cursor: 'pointer' }}>
+                            <X size={28} />
+                        </button>
+                    </div>
+
+                    {/* Mobile Search */}
+                    <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        background: 'rgba(255,255,255,0.05)', 
+                        border: '1px solid var(--color-border)', 
+                        borderRadius: '12px', 
+                        padding: '10px 14px',
+                        marginBottom: '32px'
+                    }}>
+                        <Search size={18} color="var(--color-muted)" style={{ marginRight: 8 }} />
+                        <input
+                            type="text"
+                            placeholder="Search movies..."
+                            value={searchQuery}
+                            onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                                if(e.target.value.length >= 2) setShowDropdown(true);
+                            }}
+                            style={{
+                                background: 'transparent', border: 'none', color: 'var(--color-text)',
+                                fontSize: 16, outline: 'none', width: '100%',
+                            }}
+                        />
+                    </div>
+                    {/* Mobile Dropdown within overlay */}
+                    {showDropdown && searchQuery.length >= 2 && searchResults.length > 0 && (
+                        <div style={{ background: '#13131a', borderRadius: 12, marginBottom: 24, maxHeight: 200, overflowY: 'auto' }}>
+                            {searchResults.map((movie) => (
+                                <div key={movie._id} onClick={() => { navigate(`/movies/${movie._id}`); setShowMobileMenu(false); setSearchQuery(''); setShowDropdown(false); }}
+                                    style={{ display: 'flex', gap: 12, padding: '12px', borderBottom: '1px solid var(--color-border)' }}>
+                                    <span style={{ fontSize: 14, color: 'white' }}>{movie.title}</span>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, fontSize: 18 }}>
+                        <Link to="/" onClick={() => setShowMobileMenu(false)} style={{ color: 'white', textDecoration: 'none' }}>Movies</Link>
+                        {isAuthenticated ? (
+                            <>
+                                <Link to="/bookings" onClick={() => setShowMobileMenu(false)} style={{ color: 'white', textDecoration: 'none' }}>My Bookings</Link>
+                                <Link to="/dashboard" onClick={() => setShowMobileMenu(false)} style={{ color: 'white', textDecoration: 'none' }}>Dashboard</Link>
+                                {user?.role === 'admin' && (
+                                    <Link to="/admin" onClick={() => setShowMobileMenu(false)} style={{ color: '#f5c518', textDecoration: 'none', fontWeight: 600 }}>⭐ Admin</Link>
+                                )}
+                                <button onClick={() => { handleLogout(); setShowMobileMenu(false); }} style={{ textAlign: 'left', color: '#e50914', background: 'transparent', border: 'none', padding: 0, fontSize: 18, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <LogOut size={18} /> Logout
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <Link to="/login" onClick={() => setShowMobileMenu(false)} style={{ color: 'white', textDecoration: 'none' }}>Login</Link>
+                                <Link to="/register" onClick={() => setShowMobileMenu(false)} style={{ color: '#e50914', textDecoration: 'none', fontWeight: 600 }}>Sign Up</Link>
+                            </>
+                        )}
+                    </div>
+                </div>
+            )}
         </nav>
     );
 }

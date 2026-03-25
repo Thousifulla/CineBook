@@ -126,8 +126,8 @@ export default function MovieManagement() {
             {loading ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>{[1, 2, 3, 4].map((i) => <div key={i} className="skeleton" style={{ height: 72, borderRadius: 10 }} />)}</div>
             ) : (
-                <div className="glass" style={{ borderRadius: 16, overflow: 'hidden' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                <div className="glass overflow-x-auto w-full" style={{ borderRadius: 16 }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 800 }}>
                         <thead>
                             <tr style={{ borderBottom: '1px solid var(--color-border)', background: 'rgba(255,255,255,0.02)' }}>
                                 {['Poster', 'Title', 'Genre', 'Language', 'Rating', 'Release', 'Booking', 'Actions'].map((h) => (

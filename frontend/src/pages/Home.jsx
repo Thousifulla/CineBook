@@ -80,8 +80,8 @@ export default function Home() {
 
             <div className="page-container" style={{ paddingTop: 32, paddingBottom: 48 }}>
                 {/* Search + Filters */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 28, alignItems: 'center' }}>
-                    <div style={{ position: 'relative', flex: '1 1 280px' }}>
+                <div className="flex flex-col md:flex-row gap-3 mb-7 items-center">
+                    <div className="relative w-full md:flex-1">
                         <Search size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-muted)' }} />
                         <input
                             id="movie-search"
@@ -93,7 +93,7 @@ export default function Home() {
                             onChange={handleSearch}
                         />
                     </div>
-                    <select id="language-filter" className="input-field" style={{ width: 'auto', flex: '0 0 160px' }} value={filters.language} onChange={handleLanguage}>
+                    <select id="language-filter" className="input-field w-full md:w-auto" value={filters.language} onChange={handleLanguage}>
                         <option value="">All Languages</option>
                         {LANGUAGES.map((l) => <option key={l} value={l}>{l}</option>)}
                     </select>
@@ -119,7 +119,7 @@ export default function Home() {
                 {trendingMovies && trendingMovies.length > 0 && !filters.search && !filters.genre && (
                     <div style={{ marginBottom: 40 }}>
                         <h2 className="section-title">🔥 Trending Movies</h2>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                             {trendingMovies.slice(0, 5).map((movie) => <MovieCard key={movie._id} movie={movie} />)}
                         </div>
                     </div>
@@ -128,7 +128,7 @@ export default function Home() {
                 {/* All movies */}
                 <h2 className="section-title">{filters.search || filters.genre ? 'Search Results' : '🎬 Now Showing'}</h2>
                 {loading ? (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                         {Array(12).fill(0).map((_, i) => <MovieCard key={i} loading />)}
                     </div>
                 ) : !movies || movies.length === 0 ? (
@@ -137,7 +137,7 @@ export default function Home() {
                         <p style={{ fontSize: 16 }}>No movies found. Try a different search.</p>
                     </div>
                 ) : (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                         {movies.map((movie) => <MovieCard key={movie._id} movie={movie} />)}
                     </div>
                 )}
